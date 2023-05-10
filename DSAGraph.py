@@ -55,3 +55,31 @@ class Graph(GraphVertex):
     def addVertex(self, label, value):
         self.vertices.insertFirst(GraphVertex(label, value))
         self.vertCount += 1
+
+    def getVertex(self, label):
+        for vertex in iter(self.vertices):
+            if vertex.getLabel() == label:
+                return vertex
+        else:
+            raise ValueError(f"Vertex with label {label} not found")
+        
+    def addTwoWay(self, label1, label2, weight):
+        label1 = self.getVertex(label1)
+        label2 = self.getVertex(label2)
+
+        label1.addEdge(label2, weight)
+        label2.addEdge(label1, weight)
+
+    def addOneWay(self, label1, label2, weight):
+        label1 = self.getVertex(label1)
+        label2 = self.getVertex(label2)
+
+        label1.addEdge(label2, weight)
+
+    def removeEdge(self, label1, label2):
+        '''
+        removes an edge between two vertices
+        '''
+        label1 = self.getVertex(label1)
+        label2 = self.getVertex(label2)
+        
