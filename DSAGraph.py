@@ -53,8 +53,14 @@ class Graph(GraphVertex):
         self.vertices = ll.DSALinkedList()
 
     def addVertex(self, label, value):
-        self.vertices.insertFirst(GraphVertex(label, value))
-        self.vertCount += 1
+        #check if vertex already exists
+        for vertex in iter(self.vertices):
+            if vertex.getLabel() == label:
+                #overwrite its value
+                vertex.setValue(value)
+        else:
+            self.vertices.insertFirst(GraphVertex(label, value))
+            self.vertCount += 1
 
     def getVertex(self, label):
         for vertex in iter(self.vertices):
@@ -78,8 +84,71 @@ class Graph(GraphVertex):
 
     def removeEdge(self, label1, label2):
         '''
-        removes an edge between two vertices
+        removes label1's connection to label2, but not the other way around
         '''
         label1 = self.getVertex(label1)
         label2 = self.getVertex(label2)
         
+        label1.removeItem(label2)
+        
+    def removeVertex(self, label):
+        '''
+        removes a vertex from the graph, and all connections to it
+        '''
+        for vertex in iter(self.vertices):
+            vertex.removeItem(label)
+        self.vertices.removeItem(label)
+        self.vertCount -= 1
+
+    def DFS(self, start, finish):
+        '''
+        Depth First Search
+        '''
+        start = self.getVertex(start)
+        finish = self.getVertex(finish)
+        start.visit()
+        if start == finish:
+            return True
+        else:
+            for links, weight in iter(start.getLinks()):
+                if links.isVisited() is False:
+                    if self.DFS(links.getLabel(), finish.getLabel()) is True:
+                        return True
+        return False
+    
+    def BFS(self, start, finish):
+        '''
+        Breadth First Search
+        '''
+        start = self.getVertex(start)
+        finish = self.getVertex(finish)
+        start.visit()
+        queue = ll.DSALinkedList()
+        queue.insertLast(start)
+        while queue.isEmpty() is False:
+            current = queue.removeFirst()
+            if current == finish:
+                return True
+            else:
+                for links, weight in iter(current.getLinks()):
+                    if links.isVisited() is False:
+                        links.visit()
+                        queue.insertLast(links)
+        return False
+    
+    def importFile(self, filename):
+        #line 1 is how many vertices and edges there are
+        with open(filename, 'r') as data:
+            vertCount, edgeCount = data.readline().split()
+            for i in range(int(edgeCount)):
+                label1, label2, weight = data.readline().split()
+                self.addVertex(label1, None)
+                self.addVertex(label2, None)
+                self.addTwoWay(label1, label2, weight)
+
+def test():
+    graph = Graph()
+    graph.importFile("location.txt")
+
+if __name__ == "__main__":
+    test()

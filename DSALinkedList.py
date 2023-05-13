@@ -137,13 +137,16 @@ class DSALinkedList(DSAListNode):
         return retVal
 #-------------------------------------------------
 
-    def removeAt(self, index):
-        #using the same index method as a python list, remmove at any index value
-        for _ in range(index + 1):
-            if _ >= 1:
-                index = self.head.getNext()
-        #index is the node to remove from the linked list, you would have to rebind the next and previous links
-        
+    def removeItem(self, item):
+        curNode = self.head
+        while curNode.getNext() is not None:
+            if curNode.getValue() == item:
+                curNode.getPrev().setNext(curNode.getNext())
+                curNode.getNext().setPrev(curNode.getPrev())
+                self.ndCount -= 1
+                return curNode.getValue()
+            else:
+                curNode = curNode.getNext()
 
 #-------------------------------------------------
         
