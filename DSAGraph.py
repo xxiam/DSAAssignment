@@ -1,5 +1,4 @@
 import DSALinkedList as ll
-
 '''
 quick rewrite of DSAGraph.py, modified to allow weighted edges
 and better search algorithms
@@ -52,6 +51,19 @@ class Graph(GraphVertex):
         self.linkCount = 0
         self.vertices = ll.DSALinkedList()
 
+    def getVertCount(self):
+        return self.vertCount
+    def getEdgeCount(self):
+        return self.linkCount
+
+    def isVertex(self, item):
+        #check vertice list if item is already a vertex
+        for vertex in iter(self.vertices):
+            if vertex.getLabel() == item:
+                return True
+        else:
+            return False
+
     def addVertex(self, label, value):
         #check if vertex already exists
         for vertex in iter(self.vertices):
@@ -75,12 +87,14 @@ class Graph(GraphVertex):
 
         label1.addEdge(label2, weight)
         label2.addEdge(label1, weight)
+        self.linkCount += 2
 
     def addOneWay(self, label1, label2, weight):
         label1 = self.getVertex(label1)
         label2 = self.getVertex(label2)
 
         label1.addEdge(label2, weight)
+        self.linkCount += 1
 
     def removeEdge(self, label1, label2):
         '''
@@ -140,11 +154,12 @@ class Graph(GraphVertex):
         #line 1 is how many vertices and edges there are
         with open(filename, 'r') as data:
             vertCount, edgeCount = data.readline().split()
-            for i in range(int(edgeCount)):
-                label1, label2, weight = data.readline().split()
-                self.addVertex(label1, None)
-                self.addVertex(label2, None)
-                self.addTwoWay(label1, label2, weight)
+            for line in data.readline():
+                label1, label2, weight = line.split()
+                
+                
+
+            
 
 def test():
     graph = Graph()

@@ -148,6 +148,15 @@ class DSALinkedList(DSAListNode):
             else:
                 curNode = curNode.getNext()
 
+    def isIn(self, item):
+        node = self.head
+        while node.getNext() is not None:
+            if node.getValue() == item:
+                return True
+            else:
+                node = node.getNext()
+        return False
+
 #-------------------------------------------------
         
 class ListError(Exception):
