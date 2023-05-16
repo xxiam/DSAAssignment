@@ -137,17 +137,6 @@ class DSALinkedList(DSAListNode):
         return retVal
 #-------------------------------------------------
 
-    def removeItem(self, item):
-        curNode = self.head
-        while curNode.getNext() is not None:
-            if curNode.getValue() == item:
-                curNode.getPrev().setNext(curNode.getNext())
-                curNode.getNext().setPrev(curNode.getPrev())
-                self.ndCount -= 1
-                return curNode.getValue()
-            else:
-                curNode = curNode.getNext()
-
     def isIn(self, item):
         node = self.head
         while node.getNext() is not None:
@@ -156,7 +145,14 @@ class DSALinkedList(DSAListNode):
             else:
                 node = node.getNext()
         return False
+    
+    def swapValues(self, item1, item2):
+        #only designed to work with assignment
+        
 
+    def __len__(self):
+        return self.ndCount
+    
 #-------------------------------------------------
         
 class ListError(Exception):

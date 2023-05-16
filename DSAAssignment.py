@@ -10,7 +10,7 @@ def main():
     graph = DSAGraph.Graph()
     graph.importFile("location.txt") #finished importing
 
-    graph.displayAsList()
+    graph.sortVertices()
 
 if __name__ == "__main__":
     main()

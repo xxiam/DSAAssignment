@@ -26,7 +26,7 @@ class GraphVertex():
         self.value = value
 
     def addEdge(self, vertex, weight):
-        self.links.insertFirst(vertex, weight) #can be changed to an np.arry if needed
+        self.links.insertFirst((vertex, weight)) #can be changed to an np.arry if needed
     
     def unvisit(self):
         self.visited = False
@@ -57,6 +57,10 @@ class Graph(GraphVertex):
     def getEdgeCount(self):
         return self.linkCount
 
+    def unvisitAll(self):
+        for vertex in iter(self.vertices):
+            vertex.unvisit()
+
     def isVertex(self, item):
         #check vertice list if item is already a vertex
         for vertex in iter(self.vertices):
@@ -82,6 +86,7 @@ class Graph(GraphVertex):
         else:
             self.vertices.insertFirst(GraphVertex(label, value))
             self.vertCount += 1
+
 
     def getVertex(self, label):
         for vertex in iter(self.vertices):
@@ -133,8 +138,9 @@ class Graph(GraphVertex):
 
 #search algorithms
 
-#BFS finds the shortest path between two locations
-#DFS explores the whole graph in the shortest amount of distance
+#BFS finds the shortest path between two locations, considering weight this time
+
+#DFS finds the longest path between two locations, considering weight this time
 
 #search algorithms
 
@@ -157,10 +163,25 @@ class Graph(GraphVertex):
                     self.addTwoWay(data[0], data[1], data[2])
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
-                
+    
+    def sortLinks(self):
+        for vertex in iter(self.vertices):
+            #looks like [(vertex, weight), (vertex, weight)]
+            #sort by weight, lowest weight first
+            minWeight = None
+            for link, weight in vertex.getLinks():
+                if minWeight is None:
+                    minWeight = weight
+                else:
+                    if weight < minWeight:
+                        minWeight = weight
+
+#continue working on this tmorrow ):
+        
 def test():
     graph = Graph()
     graph.importFile("location.txt")
+    graph.sortVertices()
 
 if __name__ == "__main__":
     test()
