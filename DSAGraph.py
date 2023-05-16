@@ -1,4 +1,5 @@
 import DSALinkedList as ll
+import numpy as np
 '''
 quick rewrite of DSAGraph.py, modified to allow weighted edges
 and better search algorithms
@@ -9,7 +10,7 @@ class GraphVertex():
     def __init__(self, label, value):
         self.value = value
         self.label = label
-        self.links = ll.DSALinkedList()
+        self.links = ll.DSALinkedList() #links look like [(vertex, weight), (vertex, weight)]
         self.visited = False
 
     def getValue(self):
@@ -25,7 +26,7 @@ class GraphVertex():
         self.value = value
 
     def addEdge(self, vertex, weight):
-        self.links.insertFirst((vertex, weight)) #can be changed to an np.arry if needed
+        self.links.insertFirst(vertex, weight) #can be changed to an np.arry if needed
     
     def unvisit(self):
         self.visited = False
@@ -61,6 +62,14 @@ class Graph(GraphVertex):
         for vertex in iter(self.vertices):
             if vertex.getLabel() == item:
                 return True
+        else:
+            return False
+
+    def hasVertex(self, item):
+        #check vertice list if item is already a vertex
+        for vertex in iter(self.vertices):
+            if vertex.getLabel() == item:
+                return vertex
         else:
             return False
 
@@ -114,53 +123,41 @@ class Graph(GraphVertex):
         self.vertices.removeItem(label)
         self.vertCount -= 1
 
-    def DFS(self, start, finish):
-        '''
-        Depth First Search
-        '''
-        start = self.getVertex(start)
-        finish = self.getVertex(finish)
-        start.visit()
-        if start == finish:
-            return True
-        else:
-            for links, weight in iter(start.getLinks()):
-                if links.isVisited() is False:
-                    if self.DFS(links.getLabel(), finish.getLabel()) is True:
-                        return True
-        return False
-    
-    def BFS(self, start, finish):
-        '''
-        Breadth First Search
-        '''
-        start = self.getVertex(start)
-        finish = self.getVertex(finish)
-        start.visit()
-        queue = ll.DSALinkedList()
-        queue.insertLast(start)
-        while queue.isEmpty() is False:
-            current = queue.removeFirst()
-            if current == finish:
-                return True
-            else:
-                for links, weight in iter(current.getLinks()):
-                    if links.isVisited() is False:
-                        links.visit()
-                        queue.insertLast(links)
-        return False
-    
+    def displayAsList(self):
+        for item in iter(self.vertices):
+            print(f"{item.getLabel()} |: ", end = ' ')
+            for links in item.getLinks():
+                print(links[0].getLabel(), end = ' ')
+                print(links[1], end = ' | ')
+            print()
+
+#search algorithms
+
+#BFS finds the shortest path between two locations
+#DFS explores the whole graph in the shortest amount of distance
+
+#search algorithms
+
     def importFile(self, filename):
         #line 1 is how many vertices and edges there are
-        with open(filename, 'r') as data:
-            vertCount, edgeCount = data.readline().split()
-            for line in data.readline():
-                label1, label2, weight = line.split()
-                
-                
+        try:
+            with open(filename, 'r') as f:
+                vertCount, edgeCount = f.readline().split()
+                for i in range(int(edgeCount)):
+                    #in order of items, vertex1, vertex2, weight
+                    data = np.array(f.readline().split('\n')[0].split())
+                    
+                    #create verticies
+                    if self.isVertex(data[0]) is False:
+                        self.addVertex(data[0], None)
+                    if self.isVertex(data[1]) is False:
+                        self.addVertex(data[1], None)
 
-            
-
+                    #add edges
+                    self.addTwoWay(data[0], data[1], data[2])
+        except FileNotFoundError:
+            raise FileNotFoundError("Error: " + filename + " does not exist")
+                
 def test():
     graph = Graph()
     graph.importFile("location.txt")
