@@ -140,6 +140,54 @@ class Graph(GraphVertex):
 
 #BFS finds the shortest path between two locations, considering weight this time
 
+    def breadthFirstSearch(self, start, dest):
+        '''
+        wrapper function for BFS
+        output will be a DSALinkedList object of path from start to dest
+        would look something like [start, node, node, dest]
+        '''
+        start = self.getVertex(start)
+        dest = self.getVertex(dest)
+
+        path = self.BFS(start,dest)
+    
+
+    #------------------------------------------
+    def BFS(self, start, dest):
+        ...
+        queue = ll.DSALinkedList() #1 positional argument only
+        path = ll.DSALinkedList()
+
+        self.unvisitAll() #unvist all before starting
+
+        start.visit() #visit the start node and add to queue
+        queue.insertLast(start)
+
+        while queue.isEmpty() is not True:
+            currentNode = queue.removeFirst()
+            path.insertLast(currentNode.getLabel())
+
+            #get all links and start with the lowest weight
+            adjVertices = currentNode.getLinks() #iter(self.links)
+    #------------------------------------------
+
+    def dijkstra(self, start, end):
+        start = self.getVertex(start)
+        end = self.getVertex(end)
+
+        path = self.dijkstraSearch(start, end)
+        return path
+
+    def dijkstraSearch(start : GraphVertex, dest : GraphVertex):
+        ...
+        #work on tonight
+        
+
+    
+            
+
+
+
 #DFS finds the longest path between two locations, considering weight this time
 
 #search algorithms
