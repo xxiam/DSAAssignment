@@ -101,13 +101,6 @@ class Graph(GraphVertex):
 
         label1.addEdge(label2, weight)
         label2.addEdge(label1, weight)
-        self.linkCount += 2
-
-    def addOneWay(self, label1, label2, weight):
-        label1 = self.getVertex(label1)
-        label2 = self.getVertex(label2)
-
-        label1.addEdge(label2, weight)
         self.linkCount += 1
 
     def removeEdge(self, label1, label2):
@@ -139,36 +132,6 @@ class Graph(GraphVertex):
 #search algorithms
 
 #BFS finds the shortest path between two locations, considering weight this time
-
-    def breadthFirstSearch(self, start, dest):
-        '''
-        wrapper function for BFS
-        output will be a DSALinkedList object of path from start to dest
-        would look something like [start, node, node, dest]
-        '''
-        start = self.getVertex(start)
-        dest = self.getVertex(dest)
-
-        path = self.BFS(start,dest)
-    
-
-    #------------------------------------------
-    def BFS(self, start, dest):
-        ...
-        queue = ll.DSALinkedList() #1 positional argument only
-        path = ll.DSALinkedList()
-
-        self.unvisitAll() #unvist all before starting
-
-        start.visit() #visit the start node and add to queue
-        queue.insertLast(start)
-
-        while queue.isEmpty() is not True:
-            currentNode = queue.removeFirst()
-            path.insertLast(currentNode.getLabel())
-
-            #get all links and start with the lowest weight
-            adjVertices = currentNode.getLinks() #iter(self.links)
     #------------------------------------------
 
     def dijkstra(self, start, end):
@@ -178,21 +141,55 @@ class Graph(GraphVertex):
         path = self.dijkstraSearch(start, end)
         return path
 
-    def dijkstraSearch(start : GraphVertex, dest : GraphVertex):
-        ...
-        #work on tonight
-        
+    def dijkstraSearch(self, start : GraphVertex, dest : GraphVertex):
+        '''
+        finds the shortest path between two nodes, considering weight, (better than BFS lol)
+        '''
+        #set up
+        queue = ll.DSALinkedList()
+        path = ll.DSALinkedList()
+        self.unvisitAll()
 
-    
+        #set up start node
+        start.visit()
+        queue.insertLast((start, None)) #start node has no weight
+
+        while queue.isEmpty() is not True:
+            currentNode, weight = queue.removeFirst()
+            path.insertLast((currentNode.getLabel(), weight))
+
+            #get all links and start with the lowest weight
+            adjVertices = currentNode.getLinks() #looks like (vertex, weight), (vertex, weight)
+
+            #check if dest is in adjVertices, if not, find lowest weight and add to queue
+            lowestWeight = None
+            lowestVertex = None
+
+            for vertex, weight in adjVertices:
+                if vertex == dest:
+                    path.insertLast((vertex.getLabel(), weight))
+                    return path
+                else:
+                    #find the lowest weight
+                    if lowestWeight is None:
+                        lowestWeight = weight
+                        lowestVertex = vertex
+                    elif weight < lowestWeight:
+                        lowestWeight = weight
+                        lowestVertex = vertex
             
-
-
-
+            #add lowest vertex to queue
+            lowestVertex.visit()
+            queue.insertLast((lowestVertex, lowestWeight))
+            
 #DFS finds the longest path between two locations, considering weight this time
+
+
 
 #search algorithms
 
-    def importFile(self, filename):
+    def importFile(self, filename, uavData): #uavData looks like (location, temp, humidity, windspeed) separated by spaces
+
         #line 1 is how many vertices and edges there are
         try:
             with open(filename, 'r') as f:
@@ -209,27 +206,23 @@ class Graph(GraphVertex):
 
                     #add edges
                     self.addTwoWay(data[0], data[1], data[2])
+
+            #validating the data
+            if self.getVertCount() != int(vertCount):
+                raise ValueError("Error: vertex count does not match")
+            if self.getEdgeCount() != int(edgeCount):
+                raise ValueError("Error: edge count does not match")
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
-    
-    def sortLinks(self):
-        for vertex in iter(self.vertices):
-            #looks like [(vertex, weight), (vertex, weight)]
-            #sort by weight, lowest weight first
-            minWeight = None
-            for link, weight in vertex.getLinks():
-                if minWeight is None:
-                    minWeight = weight
-                else:
-                    if weight < minWeight:
-                        minWeight = weight
-
-#continue working on this tmorrow ):
         
 def test():
     graph = Graph()
-    graph.importFile("location.txt")
-    graph.sortVertices()
+    graph.importFile("location.txt", "UAVdata.txt")
+    graph.displayAsList()
+    print("starting dijkstra")
+    path = iter(graph.dijkstra("A", "F"))
+    for item in path:
+        print(item)
 
 if __name__ == "__main__":
     test()

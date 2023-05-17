@@ -145,14 +145,13 @@ class DSALinkedList(DSAListNode):
             else:
                 node = node.getNext()
         return False
-    
-    def swapValues(self, item1, item2):
-        #only designed to work with assignment
-        
 
     def __len__(self):
         return self.ndCount
     
+    def removeItem(self, item): #removes node regardless of position
+        ...
+
 #-------------------------------------------------
         
 class ListError(Exception):

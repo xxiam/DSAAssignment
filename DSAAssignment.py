@@ -8,7 +8,7 @@ def main():
 
 
     graph = DSAGraph.Graph()
-    graph.importFile("location.txt") #finished importing
+    graph.importFile("location.txt", "UAVdata.txt") #finished importing
 
     graph.sortVertices()
 
