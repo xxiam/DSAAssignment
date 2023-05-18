@@ -139,27 +139,30 @@ class Graph(GraphVertex):
         start = self.getVertex(start)
         end = self.getVertex(end)
 
-    def dijkstraAlgorithm(self, start, end):
-        shortestPath = ll.DSALinkedList()
-        queue = DSAHeap.DSAHeap()
-        queue.insertLast(start)
-        shortestPath.insertLast((start, None)) #start does not have a weight
-        #add start to shortestPath
+        return self.dijkstraAlgorithm(start, end)
 
-        #get vertex with minimum distance value, and include in shortestPath
-        while queue.isEmpty() is False:
-            currentNode = queue.remove()
-            shortestDist = None
-            shortestVertex = None
-            for vertex, weight in currentNode.getLinks:
-                queue.insert(weight, vertex) #add to the queue to check regardles of the weight
-                if shortestDist is None and shortestVertex is None:
-                    shortestDist = weight
-                    shortestVertex = vertex
-                elif shortestDist > weight:
-                    shortestDist = weight
-                    shortestVertex = vertex
-            shortestPath.insertLast((shortestVertex, shortestPath)) #only the shortest distance vertex is added to shrotestPath queue
+    def dijkstraAlgorithm(self, start, end):
+        path = ll.DSALinkedList()
+        heap = DSAHeap.DSAHeap(self.linkCount)
+        heap.insert(0, start)
+
+        while heap.isEmpty() is False:
+            weight, current = heap.remove()
+            current.visit()
+            path.insertLast((current, weight))
+            if current == end:
+                return path
+            else:
+                for vertex, weight in current.getLinks():
+                    if vertex == end:
+                        path.insertLast((vertex, weight))
+                        return path
+                    if vertex.isVisited() is False:
+                        heap.insert(weight, vertex)
+        else:
+            raise ValueError("No path found")
+        
+                
 
 #search algorithms
 
@@ -195,7 +198,7 @@ def test():
     graph.importFile("location.txt", "UAVdata.txt")
     graph.displayAsList()
     print("starting dijkstra")
-    path = iter(graph.dijkstra("A", "F"))
+    path = iter(graph.dijkstra("A", "B"))
     for item in path:
         print(item)
 
