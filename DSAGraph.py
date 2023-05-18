@@ -1,5 +1,6 @@
 import DSALinkedList as ll
 import numpy as np
+import DSAHeap
 '''
 quick rewrite of DSAGraph.py, modified to allow weighted edges
 and better search algorithms
@@ -130,7 +131,7 @@ class Graph(GraphVertex):
             print()
 
 #search algorithms
-
+#DFS finds the shortest path between thw whole graph
 #BFS finds the shortest path between two locations, considering weight this time
     #------------------------------------------
 
@@ -138,53 +139,27 @@ class Graph(GraphVertex):
         start = self.getVertex(start)
         end = self.getVertex(end)
 
-        path = self.dijkstraSearch(start, end)
-        return path
+    def dijkstraAlgorithm(self, start, end):
+        shortestPath = ll.DSALinkedList()
+        queue = DSAHeap.DSAHeap()
+        queue.insertLast(start)
+        shortestPath.insertLast((start, None)) #start does not have a weight
+        #add start to shortestPath
 
-    def dijkstraSearch(self, start : GraphVertex, dest : GraphVertex):
-        '''
-        finds the shortest path between two nodes, considering weight, (better than BFS lol)
-        '''
-        #set up
-        queue = ll.DSALinkedList()
-        path = ll.DSALinkedList()
-        self.unvisitAll()
-
-        #set up start node
-        start.visit()
-        queue.insertLast((start, None)) #start node has no weight
-
-        while queue.isEmpty() is not True:
-            currentNode, weight = queue.removeFirst()
-            path.insertLast((currentNode.getLabel(), weight))
-
-            #get all links and start with the lowest weight
-            adjVertices = currentNode.getLinks() #looks like (vertex, weight), (vertex, weight)
-
-            #check if dest is in adjVertices, if not, find lowest weight and add to queue
-            lowestWeight = None
-            lowestVertex = None
-
-            for vertex, weight in adjVertices:
-                if vertex == dest:
-                    path.insertLast((vertex.getLabel(), weight))
-                    return path
-                else:
-                    #find the lowest weight
-                    if lowestWeight is None:
-                        lowestWeight = weight
-                        lowestVertex = vertex
-                    elif weight < lowestWeight:
-                        lowestWeight = weight
-                        lowestVertex = vertex
-            
-            #add lowest vertex to queue
-            lowestVertex.visit()
-            queue.insertLast((lowestVertex, lowestWeight))
-            
-#DFS finds the longest path between two locations, considering weight this time
-
-
+        #get vertex with minimum distance value, and include in shortestPath
+        while queue.isEmpty() is False:
+            currentNode = queue.remove()
+            shortestDist = None
+            shortestVertex = None
+            for vertex, weight in currentNode.getLinks:
+                queue.insert(weight, vertex) #add to the queue to check regardles of the weight
+                if shortestDist is None and shortestVertex is None:
+                    shortestDist = weight
+                    shortestVertex = vertex
+                elif shortestDist > weight:
+                    shortestDist = weight
+                    shortestVertex = vertex
+            shortestPath.insertLast((shortestVertex, shortestPath)) #only the shortest distance vertex is added to shrotestPath queue
 
 #search algorithms
 
