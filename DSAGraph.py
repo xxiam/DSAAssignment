@@ -160,9 +160,7 @@ class Graph(GraphVertex):
                     if vertex.isVisited() is False:
                         heap.insert(weight, vertex)
         else:
-            raise ValueError("No path found")
-        
-                
+            raise ValueError("No path found")       
 
 #search algorithms
 
@@ -190,6 +188,13 @@ class Graph(GraphVertex):
                 raise ValueError("Error: vertex count does not match")
             if self.getEdgeCount() != int(edgeCount):
                 raise ValueError("Error: edge count does not match")
+            
+            with open(uavData, 'r') as f:
+                for i in range(int(vertCount)):
+                    vertex, temp, humidity, speed = np.array(f.readline().strip().split())
+                    vertex = self.getVertex(vertex)
+                    vertex.setValue((temp, humidity, speed))
+
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
         
