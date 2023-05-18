@@ -150,7 +150,22 @@ class DSALinkedList(DSAListNode):
         return self.ndCount
     
     def removeItem(self, item): #removes node regardless of position
-        ...
+        if self.isEmpty() is True:
+            raise ListError("List is empty")
+        else:
+            currentNode = self.head
+            while currentNode.getNext() is not None:
+                if currentNode.getValue() == item:
+                    if currentNode == self.head:
+                        self.removeFirst()
+                    elif currentNode == self.tail:
+                        self.removeLast()
+                    else:
+                        currentNode.getPrev().setNext(currentNode.getNext())
+                        currentNode.getNext().setPrev(currentNode.getPrev())
+                        self.ndCount -= 1
+                        return currentNode.getValue()
+                currentNode = currentNode.getNext()
 
 #-------------------------------------------------
         
