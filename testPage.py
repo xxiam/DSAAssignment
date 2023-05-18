@@ -1,5 +1,5 @@
 
-import DSAGraph
+import Dependancies.DSAGraph as DSAGraph
 
 #create graph and test search alg
 

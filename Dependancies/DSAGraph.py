@@ -1,4 +1,4 @@
-import DSALinkedList as ll
+import Dependancies.DSALinkedList as ll
 import numpy as np
 import Dependancies.DSAHeap as DSAHeap
 '''

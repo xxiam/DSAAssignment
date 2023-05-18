@@ -1,5 +1,5 @@
 #using graph, hash table, heap
-import DSAGraph
+import Dependancies.DSAGraph as DSAGraph
 
 def main():
 
