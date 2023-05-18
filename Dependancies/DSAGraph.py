@@ -1,6 +1,6 @@
-import Dependancies.DSALinkedList as ll
+import DSALinkedList as ll
 import numpy as np
-import Dependancies.DSAHeap as DSAHeap
+
 '''
 quick rewrite of DSAGraph.py, modified to allow weighted edges
 and better search algorithms
@@ -135,32 +135,34 @@ class Graph(GraphVertex):
 #BFS finds the shortest path between two locations, considering weight this time
     #------------------------------------------
 
-    def dijkstra(self, start, end):
+    def traverse(self, start, finish):
         start = self.getVertex(start)
-        end = self.getVertex(end)
+        finish = self.getVertex(finish)
 
-        return self.dijkstraAlgorithm(start, end)
+        return self.traverseAlg(start, finish)
 
-    def dijkstraAlgorithm(self, start, end):
+    def traverseAlg(self, start, finish):
+        queue = ll.DSALinkedList()
         path = ll.DSALinkedList()
-        heap = DSAHeap.DSAHeap(self.linkCount)
-        heap.insert(0, start)
+        self.unvisitAll()
 
-        while heap.isEmpty() is False:
-            weight, current = heap.remove()
-            current.visit()
-            path.insertLast((current, weight))
-            if current == end:
-                return path
-            else:
-                for vertex, weight in current.getLinks():
-                    if vertex == end:
-                        path.insertLast((vertex, weight))
+        #start
+        currentVert = start
+        currentVert.visit()
+        queue.insertFirst(currentVert)
+        path.insertFirst((currentVert, 0))
+
+        while queue.isEmpty() is False:
+            currentVert = queue.removeFirst()
+            for links, weight in iter(currentVert.getLinks()):
+                if links.isVisited() is False:
+                    links.visit()
+                    queue.insertFirst(links)
+                    path.insertLast((links, weight))
+                    if links == finish:
                         return path
-                    if vertex.isVisited() is False:
-                        heap.insert(weight, vertex)
         else:
-            raise ValueError("No path found")       
+            return path
 
 #search algorithms
 
@@ -202,10 +204,10 @@ def test():
     graph = Graph()
     graph.importFile("location.txt", "UAVdata.txt")
     graph.displayAsList()
-    print("starting dijkstra")
-    path = iter(graph.dijkstra("A", "B"))
-    for item in path:
-        print(item)
+    print("starting traversal")
+    path = iter(graph.traverse("A", "F"))
+    for item, weight in path:
+        print(item.getLabel(), weight)
 
 if __name__ == "__main__":
     test()

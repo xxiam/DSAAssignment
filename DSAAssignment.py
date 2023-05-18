@@ -12,5 +12,14 @@ def main():
     print("Graph adjaceny list")
     graph.displayAsList()
 
+    #create flight path and store data in hash table
+    print("traversing from A to D")
+    flightPath = graph.dijkstra("A", "D")
+    distance = 0
+    for vertex, weight in iter(flightPath):
+        print(vertex.getLabel(), weight)
+        distance += float(weight)
+    print("Total distance: ", distance)
+
 if __name__ == "__main__":
     main()
