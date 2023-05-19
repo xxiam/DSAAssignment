@@ -1,0 +1,29 @@
+finished dijkstra search algorithm,
+
+to do:
+done - fix removeAt method in linkedList.py - done
+done - add value in DSAGraph.py, using UAVdata.py - done
+
+- fix dijkstra algorithm
+    - work on the pathing list
+
+- create scalability program - UNI
+    - allow creation of new nodes and links - done
+    - create interactive menu and test functionality - wip
+    - allow deletion of nodes and links
+    - create search method for finding nodes
+
+- hash data - UNI/HOME
+    - every time the uav traverses a location, hash data into table - done
+    - compare and discuss efficiency of using hashtable instead of array
+        
+
+- heap ( i dont know what im doing )
+    - i dont know yet
+
+- itinerary 
+    - implement DFS search algorithm
+    - create most efficient uav flight path
+
+writing and testing
+    - yanno
