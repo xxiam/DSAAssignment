@@ -1,4 +1,4 @@
-import Dependancies.DSALinkedList as ll
+import DSALinkedList as ll
 import numpy as np
 
 '''
@@ -162,6 +162,29 @@ class Graph(GraphVertex):
         else:
             return path
 
+    def DFS(self, start):
+        '''
+        traverse the whole grpah following the lowest weight
+        '''
+        start = self.getVertex(start)
+        self.unvisitAll()
+        return self.DFSAlg(start)
+    
+    def DFSAlg(self, start):
+        path = ll.DSALinkedList()
+        stack = ll.DSALinkedList()
+        start.visit()
+        path.insertFirst((start, 0)) #start has 0 weight
+        stack.insertFirst(start)
+
+        while stack.isEmpty() is False:
+            currentVert = stack.removeFirst()
+            for links, weight in iter(currentVert.getLinks()):
+                if links.isVisited() is False:
+                    links.visit()
+                    stack.insertFirst(links)
+                    path.insertLast((links, weight))
+        return path
 
 #search algorithms
 
@@ -201,10 +224,14 @@ class Graph(GraphVertex):
         
 def test():
     graph = Graph()
-    graph.importFile("location.txt", "UAVdata.txt")
+    graph.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
     graph.displayAsList()
     print("starting traversal")
     path = iter(graph.traverse("A", "F"))
+    for item, weight in path:
+        print(item.getLabel(), weight)
+    print("starting DFS")
+    path = iter(graph.DFS("A"))
     for item, weight in path:
         print(item.getLabel(), weight)
 
