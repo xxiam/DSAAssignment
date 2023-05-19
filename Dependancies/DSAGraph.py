@@ -1,4 +1,4 @@
-import DSALinkedList as ll
+import Dependancies.DSALinkedList as ll
 import numpy as np
 
 '''
@@ -117,10 +117,7 @@ class Graph(GraphVertex):
         '''
         removes a vertex from the graph, and all connections to it
         '''
-        for vertex in iter(self.vertices):
-            vertex.removeItem(label)
-        self.vertices.removeItem(label)
-        self.vertCount -= 1
+        ... #TODO
 
     def displayAsList(self):
         for item in iter(self.vertices):
@@ -129,6 +126,7 @@ class Graph(GraphVertex):
                 print(links[0].getLabel(), end = ' ')
                 print(links[1], end = ' | ')
             print()
+
 
 #search algorithms
 #DFS finds the shortest path between thw whole graph
