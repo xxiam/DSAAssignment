@@ -1,0 +1,3 @@
+# why a hashTable is faster than an array
+
+using a hash table instead of an array to store uav data allows us to acces the data at a constant time complexity of O(1), rather than an array that has a time complexity of O(n), where n is the size of the array, regardless of the hash table's size, we would always get O(1) time as the program does not have to iterate through the array to find the item, rather, just hash the key that leads straight to the item.
