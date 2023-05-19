@@ -1,4 +1,4 @@
-import DSALinkedList as ll
+import Dependancies.DSALinkedList as ll
 import numpy as np
 
 '''
@@ -222,18 +222,3 @@ class Graph(GraphVertex):
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
         
-def test():
-    graph = Graph()
-    graph.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
-    graph.displayAsList()
-    print("starting traversal")
-    path = iter(graph.traverse("A", "F"))
-    for item, weight in path:
-        print(item.getLabel(), weight)
-    print("starting DFS")
-    path = iter(graph.DFS("A"))
-    for item, weight in path:
-        print(item.getLabel(), weight)
-
-if __name__ == "__main__":
-    test()

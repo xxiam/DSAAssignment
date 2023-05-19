@@ -171,18 +171,3 @@ class DSALinkedList(DSAListNode):
         
 class ListError(Exception):
     pass
-
-
-if __name__ == "__main__":
-    ll = DSALinkedList()
-    for i in list(range(1,10)):
-        ll.insertLast(i)
-    
-    print(ll.removeFirst())
-
-    print(ll.head.getValue())
-    print(ll.tail.getValue())
-
-    print("_-----------------_")
-    for value in iter(ll):
-        print(value)

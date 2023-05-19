@@ -184,27 +184,3 @@ class DSAHashTable:
 
 class NodeExistError(Exception):
     pass
-
-def testFunc():
-    table = DSAHashTable(10)
-    table.put(88,"one")
-    table.put(78,"two")
-    print(table.put(98,"three"))
-
-    try:
-        print(table.get(98))
-        print(table.get(78))
-        print(table.get(88))
-    except:
-        print("failed")
-
-    try:
-        table.remove(98)
-        table.remove(78)
-        table.remove(88)
-    except:
-        print("failed")
-
-
-if __name__ == "__main__":
-    testFunc()
