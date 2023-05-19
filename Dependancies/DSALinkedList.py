@@ -167,6 +167,17 @@ class DSALinkedList(DSAListNode):
                         return currentNode.getValue()
                 currentNode = currentNode.getNext()
 
+    def get(self, item):
+        if self.isEmpty() is True:
+            raise ListError("List is empty")
+        else:
+            currentNode = self.head
+            while currentNode.getNext() is not None:
+                if currentNode.getValue() == item:
+                    return currentNode
+                currentNode = currentNode.getNext()
+            raise ListError("Item not found")
+        
 #-------------------------------------------------
         
 class ListError(Exception):

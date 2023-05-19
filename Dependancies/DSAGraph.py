@@ -1,4 +1,6 @@
 import Dependancies.DSALinkedList as ll
+import Dependancies.DSAHeap as heap
+import Dependancies.DSAhash as hashTable
 import numpy as np
 
 '''
@@ -185,6 +187,96 @@ class Graph(GraphVertex):
                     stack.insertFirst(links)
                     path.insertLast((links, weight))
         return path
+# ------------------------------------------
+
+    def dijkstra(self, start:str, end:str):
+        start = self.getVertex(start)
+        end = self.getVertex(end)
+
+        return self.dijkstraAlg(start, end)
+    
+    def dijkstraAlg(self, start:GraphVertex, end:GraphVertex):
+        '''
+        Dijkstra's algorithm
+        '''
+        distances = {vertex: float('infinity') for vertex in iter(self.vertices)}
+        distances[start] = 0
+        priorityQueue = heap.DSAHeap(self.getVertCount())
+        priorityQueue.insert(0, start)
+        previous = {vertex: None for vertex in iter(self.vertices)}
+
+        while priorityQueue.isEmpty() is False:
+            currentDistance, currentVertex = priorityQueue.remove()
+
+            #skip if found better path to curentVertex
+            if currentDistance > distances[currentVertex]:
+                continue
+
+            if currentVertex == end:
+                break
+
+            for links, weight in iter(currentVertex.getLinks()):
+                distance = float(currentDistance) + float(weight)
+
+                #skip if found better path to links
+                if distance < distances[links]:
+                    distances[links] = distance
+                    previous[links] = currentVertex
+                    priorityQueue.insert(distance, links)
+
+        path = ll.DSALinkedList()
+        while currentVertex is not None:
+            path.insertFirst((currentVertex, distances[currentVertex]))
+            currentVertex = previous[currentVertex]
+        return path
+    
+    def aStar(self, start, end):
+        '''
+        A* search algorithm
+        '''
+        start = self.getVertex(start)
+        end = self.getVertex(end)
+
+        return self.aStarAlg(start, end)
+    
+    def aStarAlg(self, start, end):
+        '''
+        A* search algorithm
+        '''
+        distances = {}
+        previous = {}
+        nodes = heap.DSAHeap(self.getVertCount())
+        path = ll.DSALinkedList()
+
+        for vertex in iter(self.vertices):
+            if vertex == start:
+                distances[vertex] = 0
+                nodes.insert(0, vertex)
+            else:
+                distances[vertex] = np.inf
+                nodes.insert(np.inf, vertex)
+            previous[vertex] = None
+
+        while nodes.isEmpty() is False:
+            smallest = nodes.remove()
+            if smallest == end:
+                while previous[smallest] is not None:
+                    path.insertFirst((smallest, distances[smallest]))
+                    smallest = previous[smallest]
+                break
+
+            if distances[smallest] == np.inf:
+                break
+
+            for links, weight in iter(smallest.getLinks()):
+                alt = distances[smallest] + weight
+                if alt < distances[links]:
+                    distances[links] = alt
+                    previous[links] = smallest
+                    nodes.insert(alt, links)
+
+        return path
+
 
 #search algorithms
 
