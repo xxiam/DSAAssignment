@@ -1,2 +1,9 @@
 # ignore .pyc files
 *.pyc
+
+#ignore .vscode folder
+.vscode
+
+#ignore __pycache__ folder and others
+__pycache__
+.pytest_cache
