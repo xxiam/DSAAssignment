@@ -154,6 +154,14 @@ class DSALinkedList(DSAListNode):
             raise ListError("List is empty")
         else:
             currentNode = self.head
+
+            if currentNode.getValue() == item and self.ndCount == 1: #if there is only one item in the list
+                self.removeFirst()
+                self.head = None
+                self.tail = None
+                self.ndCount -= 1
+                return currentNode.getValue()
+
             while currentNode.getNext() is not None:
                 if currentNode.getValue() == item:
                     if currentNode == self.head:
@@ -166,6 +174,7 @@ class DSALinkedList(DSAListNode):
                         self.ndCount -= 1
                         return currentNode.getValue()
                 currentNode = currentNode.getNext()
+            raise ValueError("Error: item not found")
 
     def get(self, item):
         if self.isEmpty() is True:

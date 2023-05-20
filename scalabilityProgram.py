@@ -1,4 +1,5 @@
 import Dependancies.DSAGraph as DSAGraph
+import sys
 
 def main():
     '''
@@ -6,8 +7,6 @@ def main():
     '''
     
     print("Scalabiltiy Program")
-    userInput = input("> ")
-
     '''
     possible choices
     - import file : 
@@ -22,7 +21,7 @@ def main():
 
     #init objects
     graph = DSAGraph.Graph()
-
+    userInput = (None, None)
     while userInput[0] != "q":
         userInput = input("> ").split()
 
@@ -77,5 +76,43 @@ def main():
 def editVertex(vertexObject:DSAGraph.GraphVertex):
     ...
 
+def quickTest():
+    graph = DSAGraph.Graph()
+    graph.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
+    '''
+    testing methods
+    - add vertex : 
+    - add edge : 
+    - remove vertex : 
+    - remove edge : 
+    - edit weight of edge : 
+    '''
+    try: #trying to add a vertex
+        graph.addVertex("New", "NewItem created by test")
+        print("add vertex test passed")
+    except Exception as e:
+        print("add vertex test failed with error: " + str(e))
+        
+    try: #trying to add an edge
+        graph.addTwoWay("A", "G", 1)
+        print("add edge test passed")
+    except Exception as e:
+        print("add edge test failed with error: " + str(e))
+
+    try: #trying to remove a vertex
+        graph.removeVertex("New")
+        print("remove vertex test passed")
+    except Exception as e:
+        print("remove vertex test failed with error: " + str(e))
+
+    try: #trying to remove an edge
+        graph.removeEdge("A", "G")
+        print("remove edge test passed")
+    except Exception as e:
+        print("remove edge test failed with error: " + str(e))
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1] == '-q':
+        quickTest()
+    else:
+        main()

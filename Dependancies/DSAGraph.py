@@ -85,7 +85,7 @@ class Graph(GraphVertex):
         for vertex in iter(self.vertices):
             if vertex.getLabel() == label:
                 #overwrite its value
-                vertex.setValue(value)
+                raise ValueError(f"Vertex with label {label} already exists")
         else:
             self.vertices.insertFirst(GraphVertex(label, value))
             self.vertCount += 1
@@ -108,18 +108,31 @@ class Graph(GraphVertex):
 
     def removeEdge(self, label1, label2):
         '''
-        removes label1's connection to label2, but not the other way around
+        removes an edge between both vertices
         '''
-        label1 = self.getVertex(label1)
-        label2 = self.getVertex(label2)
         
-        label1.removeItem(label2)
+        vertex1 = self.getVertex(label1)
+        vertex2 = self.getVertex(label2)
+
+        #remove vertex2 from vertex1
+        for links, weight in iter(vertex1.getLinks()):
+            if links == vertex2:
+                vertex1.links.removeItem((links, weight))
+                break
+
+        #remove vertex1 from vertex2
+        for links, weight in iter(vertex2.getLinks()):
+            if links == vertex1:
+                vertex2.links.removeItem((links, weight))
+                break
+        self.linkCount -= 1
         
     def removeVertex(self, label):
         '''
         removes a vertex from the graph, and all connections to it
         '''
-        ... #TODO
+        vertex = self.getVertex(label)
+        self.vertices.removeItem(label)
 
     def displayAsList(self):
         for item in iter(self.vertices):
@@ -230,6 +243,8 @@ class Graph(GraphVertex):
             currentVertex = previous[currentVertex]
         return path
     
+    #experimental aStar
+
     def aStar(self, start, end):
         '''
         A* search algorithm
@@ -276,7 +291,8 @@ class Graph(GraphVertex):
                     nodes.insert(alt, links)
 
         return path
-
+    
+    #------------------------------------------
 
 #search algorithms
 
