@@ -48,23 +48,25 @@ def threatTracker(uav:DSAUav.UAV, start:str):
         windSpeed = int(vert.getValue().getWindSpeed())
         threatLevel = 0
         if temp >= 25 and temp <= 32:
-            threatLevel += 1
+            threatLevel += 3
         elif temp >= 33 and temp <= 40:
             threatLevel += 2
         elif temp > 40:
-            threatLevel += 3
-        if humidity > 50:
             threatLevel += 1
+
+        if humidity > 50:
+            threatLevel += 3
         elif humidity >= 31 and humidity <= 50:
             threatLevel += 2
         elif humidity < 30:
-            threatLevel += 3
-        if windSpeed < 40:
             threatLevel += 1
+
+        if windSpeed < 40:
+            threatLevel += 3
         elif windSpeed >= 41 and windSpeed <= 55:
             threatLevel += 2
         elif windSpeed > 55:
-            threatLevel += 3
+            threatLevel += 1
         dataHeap.insert(threatLevel, vert.getLabel())
     return dataHeap
 
@@ -116,7 +118,25 @@ def main():
 
     print("------[Itinerary]-----------")
     #testing itinerary
-    flightPath = dataHeap.export()
+    dangerPath = dataHeap.export() 
+    #find the high risk areas (lower number, the higher the risk)
+    #remove excess items (anything over 5)
+    for i in range(len(dangerPath)):
+        if dangerPath[i][0] > 5:
+            dangerPath[i] = None
+    print(dangerPath)
+
+    print("------[Flight]--------------")
+    for i in range(len(dangerPath)):
+        try:
+            if dangerPath[i + 1] is not None:
+                path, distance = uav.travel(dangerPath[i][1], dangerPath[i + 1][1])
+                path = ezFlightParse(path)
+                print("Flight path: ", path)
+                print("Distance: ", distance)
+        except IndexError:
+            pass
+
 
     '''
     fly uav, prioritising the first item in the heap

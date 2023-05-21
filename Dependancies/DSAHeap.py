@@ -94,7 +94,7 @@ class DSAHeap():
         '''
         array = np.empty(self.count, dtype=object)
         for i in range(self.count):
-            array[i] = self.heap[i].getValue()
+            array[i] = self.remove()
         return array
 
     def display(self):
@@ -105,6 +105,8 @@ class DSAHeap():
                 if i is not None:
                     print(f"priority: {i.getPriority()} | value: {i.getValue()}")
 
+    def __len__(self):
+        return self.count
 
 class EmptyHeapError(Exception):
     pass
