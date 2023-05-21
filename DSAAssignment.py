@@ -17,6 +17,57 @@ def ezFlightParse(linkedList:DSALinkedList.DSALinkedList):
         idx += 1
     return array
 
+def threatTracker(uav:DSAUav.UAV, start:str):
+    '''
+    DFS and store in heap depending on the threat level
+    '''
+    #thresholds
+    '''
+    temp:
+        25-32 = 1
+        33-40 = 2
+        >40 = 3
+        
+    humidity:
+        >50 = 1
+        31-50 = 2
+        <30 = 3
+        
+    wind speed:
+        <40 = 1
+        41-55 = 2
+        >55 = 3
+    
+    level of threat is determined by adding all values together
+    '''
+    dataHeap = DSAHeap.DSAHeap(uav.locationCount)
+    path, distance = uav.DFS(start)
+    for vert, weight in iter(path):
+        temp = int(vert.getValue().getTemperature())
+        humidity = int(vert.getValue().getHumidity())
+        windSpeed = int(vert.getValue().getWindSpeed())
+        threatLevel = 0
+        if temp >= 25 and temp <= 32:
+            threatLevel += 1
+        elif temp >= 33 and temp <= 40:
+            threatLevel += 2
+        elif temp > 40:
+            threatLevel += 3
+        if humidity > 50:
+            threatLevel += 1
+        elif humidity >= 31 and humidity <= 50:
+            threatLevel += 2
+        elif humidity < 30:
+            threatLevel += 3
+        if windSpeed < 40:
+            threatLevel += 1
+        elif windSpeed >= 41 and windSpeed <= 55:
+            threatLevel += 2
+        elif windSpeed > 55:
+            threatLevel += 3
+        dataHeap.insert(threatLevel, vert.getLabel())
+    return dataHeap
+
 def main():
     uav = DSAUav.UAV()
     uav.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
@@ -55,6 +106,15 @@ def main():
         if item.getValue() is not None:
             #skip empty indexes
             print(item.getKey(), item.getValue())
-        
+    
+    print("------[Heaping]-------------")
+    dataHeap = threatTracker(uav, "A")
+    #testing heap
+    for item in dataHeap.heap:
+        print(item.getValue(), end = " ")
+    print()
+
+    print("------[Itinerary]-----------")
+    
 if __name__ == "__main__":
     main()
