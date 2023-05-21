@@ -6,9 +6,10 @@ import Dependancies.DSALinkedList as DSALinkedList
 class UAV:
     def __init__(self):
         self.uav = DSAGraph.Graph()
+        self.locationCount = None
 
     def importFile(self, locationPath, dataPath):
-        self.uav.importFile(locationPath, dataPath)
+        self.locationCount = int(self.uav.importFile(locationPath, dataPath))
     
     def travel(self, start, end):
         if end is None or start is None:

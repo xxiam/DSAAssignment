@@ -2,6 +2,7 @@ import Dependancies.DSALinkedList as ll
 import Dependancies.DSAHeap as heap
 import Dependancies.DSAhash as hashTable
 import numpy as np
+import DSAUav
 
 '''
 quick rewrite of DSAGraph.py, modified to allow weighted edges
@@ -90,7 +91,6 @@ class Graph(GraphVertex):
             self.vertices.insertFirst(GraphVertex(label, value))
             self.vertCount += 1
 
-
     def getVertex(self, label):
         for vertex in iter(self.vertices):
             if vertex.getLabel() == label:
@@ -153,7 +153,6 @@ class Graph(GraphVertex):
                 print(links[0].getLabel(), end = ' ')
                 print(links[1], end = ' | ')
             print()
-
 
 #search algorithms
 #DFS finds the shortest path between thw whole graph
@@ -309,7 +308,6 @@ class Graph(GraphVertex):
 #search algorithms
 
     def importFile(self, filename, uavData): #uavData looks like (location, temp, humidity, windspeed) separated by spaces
-
         #line 1 is how many vertices and edges there are
         try:
             with open(filename, 'r') as f:
@@ -337,8 +335,9 @@ class Graph(GraphVertex):
                 for i in range(int(vertCount)):
                     vertex, temp, humidity, speed = np.array(f.readline().strip().split())
                     vertex = self.getVertex(vertex)
-                    vertex.setValue((temp, humidity, speed))
-
+                    locationData = DSAUav.Location(temp, humidity, speed)
+                    vertex.setValue(locationData)
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
         
+        return vertCount
