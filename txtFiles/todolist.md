@@ -11,6 +11,8 @@
 
 - compare and discuss efficiency of using hashtable instead of array
 
+- fix BFS algorithm 
+
 ## to do:
 
 - heap ( i dont know what im doing )
@@ -19,17 +21,16 @@
 - itinerary 
     - implement DFS search algorithm
         - hamiltonian cycle
+            - would A* work?
     - create most efficient uav flight path
 
 - writing and testing
     - yanno
 
+- used dijkstra's algorithm but still needs to fix some datatypes:
+    - change from dictionaries to hashTables
+    
 ## work in progress:
-- fix BFS algorithm
-    - work on the pathing list issue
-        - the alg works, but the path still includes visited vertices that dont need to be in the path linkedList 
-        - used dijkstra's algorithm but still needs to fix some datatypes:
-            - change from dictionaries to hashTables
 
 - create scalability program
     - create interactive menu and test functionality
@@ -44,4 +45,5 @@
 
 - DSAUav.py file
     - put all methods in and test functionality
+        - heap :|
         
