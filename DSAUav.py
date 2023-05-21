@@ -6,17 +6,13 @@ import Dependancies.DSALinkedList as DSALinkedList
 class UAV:
     def __init__(self):
         self.uav = DSAGraph.Graph()
-        self.location = None
 
     def importFile(self, locationPath, dataPath):
         self.uav.importFile(locationPath, dataPath)
     
     def travel(self, start, end):
-        if start is None:
-            start = self.location
-        if end is None:
+        if end is None or start is None:
             raise ValueError("End location cannot be None")
-
         flightPath = self.uav.dijkstra(start, end)
         distance = 0
         for vertex, weight in iter(flightPath):
@@ -35,3 +31,28 @@ class UAV:
         for vert, weight in iter(path):
             table.put(vert.getLabel(), vert.getValue())
         return table
+    
+    def DFS(self, start):
+        if start is None:
+            raise ValueError("Start location cannot be None")
+        path = self.uav.DFS(start)
+        distance = 0
+        for vertex, weight in iter(path):
+            distance += float(weight)
+        return path, distance
+    
+class Location:
+    def __init__(self, temperature, humidity, windSpeed):
+        self.temperature = temperature
+        self.humidity = humidity
+        self.windSpeed = windSpeed
+    
+    #getters
+    def getTemperature(self):
+        return self.temperature
+    
+    def getHumidity(self):
+        return self.humidity
+    
+    def getWindSpeed(self):
+        return self.windSpeed
