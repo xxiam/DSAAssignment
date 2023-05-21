@@ -155,8 +155,9 @@ class Graph(GraphVertex):
             print()
 
 #search algorithms
-#DFS finds the shortest path between thw whole graph
-#BFS finds the shortest path between two locations, considering weight this time
+#DFS finds the shortest path between thw whole graph, does not consider weight
+#dijkstra finds the shortest path between two locations, considering weight
+#A* finds the shortest path between two locations, considering weight and heuristic
     #------------------------------------------
 
     def traverse(self, start, finish):

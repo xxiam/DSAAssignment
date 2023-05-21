@@ -13,10 +13,9 @@
 
 - fix BFS algorithm 
 
-## to do:
+- heap
 
-- heap ( i dont know what im doing )
-    - i dont know yet
+## to do:
 
 - itinerary 
     - implement DFS search algorithm
@@ -29,7 +28,9 @@
 
 - used dijkstra's algorithm but still needs to fix some datatypes:
     - change from dictionaries to hashTables
-    
+
+- report writing !!!
+
 ## work in progress:
 
 - create scalability program
@@ -45,5 +46,4 @@
 
 - DSAUav.py file
     - put all methods in and test functionality
-        - heap :|
         

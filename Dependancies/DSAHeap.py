@@ -88,6 +88,15 @@ class DSAHeap():
         else:
             return self.heap[0].getValue()
 
+    def export(self):
+        '''
+        exports heap to array
+        '''
+        array = np.empty(self.count, dtype=object)
+        for i in range(self.count):
+            array[i] = self.heap[i].getValue()
+        return array
+
     def display(self):
         if self.isEmpty():
             raise EmptyHeapError("Error, empty heap")
