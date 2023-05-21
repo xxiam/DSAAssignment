@@ -33,7 +33,6 @@ def main():
     path = ezFlightParse(flightPath)
     print("Flight path: ", path)
     print("Distance: ", distance)
-
     print("------[parseToTable]--------")
     #parsing flight path to hash table
     table = uav.pathToTable(flightPath)
@@ -41,10 +40,21 @@ def main():
         if item.getValue() is not None:
             #skip empty indexes
             print(item.getKey(), item.getValue())
-
+    
+    print("------[DFS]-----------------")
+    #testing DFS
+    print("DFS from A:")
+    path, distance = uav.DFS("A")
+    pathArray = ezFlightParse(path)
+    print("DFS path: ", pathArray)
+    print("Distance: ", distance)
+    print("------[parseToTable]--------")
+    #parsing flight path to hash table
+    table = uav.pathToTable(path)
+    for item in table.displayTable():
+        if item.getValue() is not None:
+            #skip empty indexes
+            print(item.getKey(), item.getValue())
         
-
-
-
 if __name__ == "__main__":
     main()
