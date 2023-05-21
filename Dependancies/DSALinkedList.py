@@ -151,30 +151,34 @@ class DSALinkedList(DSAListNode):
     
     def removeItem(self, item): #removes node regardless of position
         if self.isEmpty() is True:
-            raise ListError("List is empty")
-        else:
-            currentNode = self.head
-
-            if currentNode.getValue() == item and self.ndCount == 1: #if there is only one item in the list
-                self.removeFirst()
+            raise ListError("Error: List is empty")
+        
+        #if there is only one item in the list
+        if self.ndCount == 1:
+            nodeValue = self.head.getValue()
+            if self.head.getValue() == item:
                 self.head = None
                 self.tail = None
                 self.ndCount -= 1
-                return currentNode.getValue()
+                return nodeValue
 
-            while currentNode.getNext() is not None:
-                if currentNode.getValue() == item:
-                    if currentNode == self.head:
-                        self.removeFirst()
-                    elif currentNode == self.tail:
-                        self.removeLast()
-                    else:
-                        currentNode.getPrev().setNext(currentNode.getNext())
-                        currentNode.getNext().setPrev(currentNode.getPrev())
-                        self.ndCount -= 1
-                        return currentNode.getValue()
-                currentNode = currentNode.getNext()
-            raise ValueError("Error: item not found")
+        #if there are two items in the list, head and tail would be different values
+        if self.ndCount == 2:
+            if self.head.getValue() == item:
+                nodeValue = self.head.getValue()
+                self.head = self.tail
+                self.head.setPrev(None)
+                self.ndCount -= 1
+                return nodeValue
+            elif self.tail.getValue() == item:
+                nodeValue = self.tail.getValue()
+                self.tail = self.head
+                self.tail.setNext(None)
+                self.ndCount -= 1
+                return nodeValue
+            else:
+                raise ListError("Item not found")
+        
 
     def get(self, item):
         if self.isEmpty() is True:

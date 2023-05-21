@@ -1,23 +1,31 @@
 import Dependancies.DSAGraph as DSAGraph
 import Dependancies.DSAhash as DSAhash
+import Dependancies.DSAHeap as DSAHeap
+import Dependancies.DSALinkedList as DSALinkedList
 
 class UAV:
-    def __init__(self, location, data):
-        #import data
-        self.uavLocation = DSAGraph.Graph().importFile(location, data)
-        #uavLocation has all locations and data associated with location
+    def __init__(self):
+        self.uav = DSAGraph.Graph()
+        self.location = None
 
-    def getLocation(self):
-        return self.uavLocation
+    def importFile(self, locationPath, dataPath):
+        self.uav.importFile(locationPath, dataPath)
     
     def travel(self, start, end):
-        table = DSAhash.DSAHashTable(self.uavLocation.getVertCount())
-        path = self.uavLocation.traverse(start, end)
-        #put data into hash table
-        for vertex, weight in iter(path):
-            table.put(vertex.getLabel(), vertex.getValue())
-        return table
+        if start is None:
+            start = self.location
+        if end is None:
+            raise ValueError("End location cannot be None")
+
+        flightPath = self.uav.dijkstra(start, end)
+        distance = 0
+        for vertex, weight in iter(flightPath):
+            distance += float(weight)
+        self.location = end
+        return flightPath, distance
     
-    def shortPath(self, start):
-        #find shortest path from start to all other locations
-        ...
+    def display(self):
+        self.uav.displayAsList()
+
+    def hamiltonianCycle(self, start):
+        return self.uav.hamiltonianCycle(start)

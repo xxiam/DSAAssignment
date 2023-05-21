@@ -131,8 +131,20 @@ class Graph(GraphVertex):
         '''
         removes a vertex from the graph, and all connections to it
         '''
-        vertex = self.getVertex(label)
-        self.vertices.removeItem(label)
+        print("vertex found")
+        vertex = self.getVertex(label) #gets vertex to delete
+        
+        #remove the edges
+        print("removing edges")
+        for links, weight in iter(vertex.getLinks()):
+            print(links)
+            print(f"removing edge between {vertex.getLabel()} and {links.getLabel()}")
+            self.removeEdge(vertex.getLabel(), links.getLabel())
+        
+        #remove the vertex
+        print(f"removing vertex {vertex.getLabel()} from graph")
+        self.vertices.removeItem(vertex)
+        self.vertCount -= 1
 
     def displayAsList(self):
         for item in iter(self.vertices):
