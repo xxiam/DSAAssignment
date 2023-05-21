@@ -47,12 +47,15 @@ class DSAHashTable:
             self.hashArray[i] = DSAHashEntry()
         
     def hashFunction(self, key, bound = None):
-        #using shift add xor hash
+        #modified to accept strings
+        key = ord(key)
         if bound is None:
             bound = self.size
-        hashIndex = 0
+        hashIndex = (key << 5) + (key << 2) + key
+        '''old:
         for _ in range(len(str(key))):
             hashIndex += hashIndex ^ ((hashIndex << 5) + (hashIndex << 2) + int(str(key)[_]))
+        '''
         return abs(hashIndex % bound)
 
     def stepHash(self, key):
@@ -181,6 +184,9 @@ class DSAHashTable:
             for i in self.hashArray:
                 if i.getState() == 1:
                     f.write(str(i.getKey()) + ',' + str(i.getValue()) + '\n')
+
+    def displayTable(self):
+        return self.hashArray
 
 class NodeExistError(Exception):
     pass

@@ -106,7 +106,7 @@ class Graph(GraphVertex):
         label2.addEdge(label1, weight)
         self.linkCount += 1
 
-    def removeEdge(self, label1, label2):
+    def removeEdge(self, label1, label2): #work in progress
         '''
         removes an edge between both vertices
         '''
@@ -127,7 +127,7 @@ class Graph(GraphVertex):
                 break
         self.linkCount -= 1
         
-    def removeVertex(self, label):
+    def removeVertex(self, label): #work in progress
         '''
         removes a vertex from the graph, and all connections to it
         '''

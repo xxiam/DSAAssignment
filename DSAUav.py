@@ -29,3 +29,9 @@ class UAV:
 
     def hamiltonianCycle(self, start):
         return self.uav.hamiltonianCycle(start)
+    
+    def pathToTable(self, path:DSALinkedList.DSALinkedList):
+        table = DSAhash.DSAHashTable()
+        for vert, weight in iter(path):
+            table.put(vert.getLabel(), vert.getValue())
+        return table
