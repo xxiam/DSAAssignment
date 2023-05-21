@@ -115,6 +115,12 @@ def main():
     print()
 
     print("------[Itinerary]-----------")
-    
+    #testing itinerary
+    flightPath = dataHeap.export()
+
+    '''
+    fly uav, prioritising the first item in the heap
+    '''
+
 if __name__ == "__main__":
     main()
