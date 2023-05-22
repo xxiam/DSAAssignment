@@ -1,4 +1,4 @@
-# tracking what to do and what I finsihed
+# tracking what to do and what I finished
 
 ## finished
 - fix removeAt method in linkedList.py
@@ -28,12 +28,13 @@
             - would A* work?
     - create most efficient uav flight path
 
-- report writing !!!
-
 ## work in progress:
+
+- report writing !!!
 
 - DSAUav.py file
     - put all methods in and test functionality
+    - user interactive DSAUav.py file
 
 - used dijkstra's algorithm but still needs to fix some datatypes:
     - change from dictionaries to hashTables
