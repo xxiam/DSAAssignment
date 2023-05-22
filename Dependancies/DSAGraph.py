@@ -106,46 +106,6 @@ class Graph(GraphVertex):
         label2.addEdge(label1, weight)
         self.linkCount += 1
 
-    def removeEdge(self, label1, label2): #work in progress
-        '''
-        removes an edge between both vertices
-        '''
-        
-        vertex1 = self.getVertex(label1)
-        vertex2 = self.getVertex(label2)
-
-        #remove vertex2 from vertex1
-        for links, weight in iter(vertex1.getLinks()):
-            if links == vertex2:
-                vertex1.links.removeItem((links, weight))
-                break
-
-        #remove vertex1 from vertex2
-        for links, weight in iter(vertex2.getLinks()):
-            if links == vertex1:
-                vertex2.links.removeItem((links, weight))
-                break
-        self.linkCount -= 1
-        
-    def removeVertex(self, label): #work in progress
-        '''
-        removes a vertex from the graph, and all connections to it
-        '''
-        print("vertex found")
-        vertex = self.getVertex(label) #gets vertex to delete
-        
-        #remove the edges
-        print("removing edges")
-        for links, weight in iter(vertex.getLinks()):
-            print(links)
-            print(f"removing edge between {vertex.getLabel()} and {links.getLabel()}")
-            self.removeEdge(vertex.getLabel(), links.getLabel())
-        
-        #remove the vertex
-        print(f"removing vertex {vertex.getLabel()} from graph")
-        self.vertices.removeItem(vertex)
-        self.vertCount -= 1
-
     def displayAsList(self):
         for item in iter(self.vertices):
             print(f"{item.getLabel()} |: ", end = ' ')
@@ -342,3 +302,30 @@ class Graph(GraphVertex):
             raise FileNotFoundError("Error: " + filename + " does not exist")
         
         return vertCount
+    
+    #testing remove
+
+    def removeEdge(self, vert1:str, vert2:str):
+        vert1 = self.getVertex(vert1)
+        vert2 = self.getVertex(vert2)
+
+        for links, weight in iter(vert1.getLinks()):
+            if links == vert2:
+                vert1.links.removeItem((links, weight))
+                self.linkCount -= 1
+        #can be improved
+        for links, weight in iter(vert2.getLinks()):
+            if links == vert1:
+                vert2.links.removeItem((links, weight))
+                self.linkCount -= 1
+
+    def removeVertex(self, vert:str):
+        vertex = self.getVertex(vert)
+
+        #remove any links to this vertex
+        if vertex.links.isEmpty() is not None:
+            for links, weight in iter(vertex.getLinks()):
+                self.removeEdge(vert, links.getLabel())
+        
+        #remove vertex
+        self.vertices.removeItem(vertex)

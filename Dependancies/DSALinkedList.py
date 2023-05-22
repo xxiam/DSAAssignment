@@ -74,6 +74,7 @@ class DSALinkedList(DSAListNode):
             self.tail = newNode
         else:
             newNode.setNext(self.head) #self.head is the same as self._root in page 69
+            self.head.setPrev(newNode)
             self.head = newNode
         return newNode
 
@@ -152,33 +153,46 @@ class DSALinkedList(DSAListNode):
     def removeItem(self, item): #removes node regardless of position
         if self.isEmpty() is True:
             raise ListError("Error: List is empty")
+        '''
+        possible cases:
+        1. item is head
+        2. item is tail
+        3. item is in the middle
+        4. item is not in the list
+        '''
+        #if item is head and tail
+        if self.head.getValue() == item and self.tail.getValue() == item:
+            self.head = None
+            self.tail = None
+            self.ndCount -= 1
+            return
         
-        #if there is only one item in the list
-        if self.ndCount == 1:
-            nodeValue = self.head.getValue()
-            if self.head.getValue() == item:
-                self.head = None
-                self.tail = None
+        #if item is head
+        if self.head.getValue() == item:
+            self.head = self.head.getNext()
+            self.head.setPrev(None)
+            self.ndCount -= 1
+            return
+    
+        #if item is tail
+        if self.tail.getValue() == item:
+            self.tail = self.tail.getPrev()
+            self.tail.setNext(None)
+            self.ndCount -= 1
+            return
+        
+        #if item is in the middle
+        currentNode = self.head
+        while currentNode.getNext() is not None:
+            if currentNode.getValue() == item:
+                currentNode.getPrev().setNext(currentNode.getNext())
+                currentNode.getNext().setPrev(currentNode.getPrev())
                 self.ndCount -= 1
-                return nodeValue
+                return
+            currentNode = currentNode.getNext()
 
-        #if there are two items in the list, head and tail would be different values
-        if self.ndCount == 2:
-            if self.head.getValue() == item:
-                nodeValue = self.head.getValue()
-                self.head = self.tail
-                self.head.setPrev(None)
-                self.ndCount -= 1
-                return nodeValue
-            elif self.tail.getValue() == item:
-                nodeValue = self.tail.getValue()
-                self.tail = self.head
-                self.tail.setNext(None)
-                self.ndCount -= 1
-                return nodeValue
-            else:
-                raise ListError("Item not found")
-        
+        #if item is not in the list
+        raise ListError("Item not found")
 
     def get(self, item):
         if self.isEmpty() is True:

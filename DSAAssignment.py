@@ -137,10 +137,7 @@ def main():
         except IndexError:
             pass
 
-
-    '''
-    fly uav, prioritising the first item in the heap
-    '''
+    print("------[End]-----------------")
 
 if __name__ == "__main__":
     main()

@@ -5,13 +5,17 @@ import Dependancies.DSAGraph as DSAGraph
 
 def test():
     graph = DSAGraph.Graph()
-    graph.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
+    graph.addVertex("A", "value")
+    graph.addVertex("B", "another value")
+    graph.addVertex("C", "yet another value")
+    graph.addVertex("D", "yet another value")
+    graph.addTwoWay("A", "B", 1)
+    graph.displayAsList()
+    print("removing vertex--")
+    graph.removeVertex("A")
     graph.displayAsList()
     
-    print("dijkstra's algorithm")
-    for item, weight in graph.dijkstra("A", "F"):
-        print(item.getLabel(), end = ' ')
-    print()
+
 
 if __name__ == "__main__":
     test()
