@@ -6,6 +6,7 @@ import Dependancies.DSAHeap as DSAHeap
 import Dependancies.DSALinkedList as DSALinkedList
 import numpy as np
 import DSAUav
+import sys
 
 def ezFlightParse(linkedList:DSALinkedList.DSALinkedList):
     #turns linked list into array
@@ -70,7 +71,7 @@ def threatTracker(uav:DSAUav.UAV, start:str):
         dataHeap.insert(threatLevel, vert.getLabel())
     return dataHeap
 
-def main():
+def quickTest():
     uav = DSAUav.UAV()
     uav.importFile("txtFiles/location.txt", "txtFiles/UAVdata.txt")
 
@@ -139,5 +140,18 @@ def main():
 
     print("------[End]-----------------")
 
+def main():
+    '''
+    interactive menu for UAV
+    '''
+
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 2 and sys.argv[1] == "-i":
+        main()
+    elif len(sys.argv) == 2 and sys.argv[1] == "-q":
+        quickTest()
+    
+    else:
+        print("usage: python3 DSAAssignment.py [option]")
+        print("-q : quick test, testing methods")
+        print("-i : interactive mode")
