@@ -26,6 +26,9 @@ class GraphVertex():
     def getLinks(self):
         return iter(self.links)
     
+    def setLabel(self, label):
+        self.label = label
+
     def setValue(self, value):
         self.value = value
 

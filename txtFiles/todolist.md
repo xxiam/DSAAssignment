@@ -19,6 +19,7 @@
         
 - delete vertex issue
 
+- create scalability program
 ## to do:
 
 - itinerary 
@@ -27,24 +28,14 @@
             - would A* work?
     - create most efficient uav flight path
 
-- writing and testing
-    - yanno
-
-- used dijkstra's algorithm but still needs to fix some datatypes:
-    - change from dictionaries to hashTables
-
 - report writing !!!
 
 ## work in progress:
 
-- create scalability program
-    - allow deletion of nodes and links
-        - DSAGraph.py:
-            - allow edit of weight
-            - editVertex
-    - create search method for finding nodes
-        - use getVertex()
-
 - DSAUav.py file
     - put all methods in and test functionality
+
+- used dijkstra's algorithm but still needs to fix some datatypes:
+    - change from dictionaries to hashTables
+
         

@@ -76,7 +76,7 @@ def main():
 
         elif userInput[0] == "edit":
             vertex = graph.getVertex(userInput[1])
-            editVertex(vertex)
+            editVertex(graph, vertex)
 
         elif userInput[0] == "find":
             #find userInput[1]
@@ -91,7 +91,7 @@ def main():
 
     print("exiting")
 
-def editVertex(vertexObject:DSAGraph.GraphVertex):
+def editVertex(graph:DSAGraph.Graph, vertexObject:DSAGraph.GraphVertex):
     '''
     methods:
     - edit label :
@@ -107,15 +107,41 @@ def editVertex(vertexObject:DSAGraph.GraphVertex):
             print("label <new label>")
             print("value <new value>")
             print("addEdge <vertex2> <weight>")
+            print("removeEdge <vertex2>")
+            print("display")
     
         elif userInput[0] == "label":
+
+            #check if label already exists
+            try:
+                graph.getVertex(userInput[1])
+                print(f"vertex {userInput[1]} already exists")
+                return
+            except ValueError:
+                ...
+
             vertexObject.setLabel(userInput[1])
+
         elif userInput[0] == "value":
             vertexObject.setValue(userInput[1])
+
         elif userInput[0] == "addEdge":
             vertex2 = userInput[1]
             weight = userInput[2]
-            vertexObject.addEdge(vertex2, weight)
+            try:
+                graph.addTwoWay(vertexObject.getLabel(), vertex2, weight)
+            except ValueError:
+                print(f"vertex {vertex2} not found")
+
+        elif userInput[0] == "removeEdge":
+            vertex2 = userInput[1]
+            try:
+                graph.removeEdge(vertexObject.getLabel(), vertex2)
+            except ValueError:
+                print(f"vertex {vertex2} not found")
+
+        elif userInput[0] == "display":
+            print(vertexObject)
 
 def quickTest():
     graph = DSAGraph.Graph()
