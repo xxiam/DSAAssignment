@@ -16,7 +16,8 @@ def main():
     - remove vertex : 
     - remove edge : 
     - display as list : 
-    - edit weight of edge : 
+    - edit weight of edge :
+    - find edge : 
     '''
 
     #init objects
@@ -40,33 +41,50 @@ def main():
             locationPath = userInput[1]
             dataPath = userInput[2]
             graph.importFile(locationPath, dataPath)
+            print("imported")
 
         elif userInput[0] == "export":
             #create export method in DSAgraph.py
             ...
 
-        elif userInput[0] == "add":
+        elif userInput[0] == "add": #would look like add A 12 13 14
             label = userInput[1]
-            value = userInput[2]
-            graph.addVertex(label, value)
+            
+            value = userInput[1:]
+            #if userInput was "add 12 13 14"
+            #then value would be [12, 13, 14]
+            graph.addVertex(label, tuple(value))
+            print(f"added vertex {label} with value {value}")
 
         elif userInput[0] == "addEdge":
             vertex1 = userInput[1]
             vertex2 = userInput[2]
             weight = userInput[3]
             graph.addTwoWay(vertex1, vertex2, weight)
+            print(f"added edge between {vertex1} and {vertex2} with weight {weight}")
         
         elif userInput[0] == "remove":
             label = userInput[1]
             graph.removeVertex(label)
+            print(f"removed vertex {label}")
 
         elif userInput[0] == "removeEdge":
             vertex1 = userInput[1]
             vertex2 = userInput[2]
             graph.removeEdge(vertex1, vertex2)
+            print(f"removed edge between {vertex1} and {vertex2}")
 
         elif userInput[0] == "edit":
-            editVertex(userInput[1])
+            vertex = graph.getVertex(userInput[1])
+            editVertex(vertex)
+
+        elif userInput[0] == "find":
+            #find userInput[1]
+            try:
+                graph.getVertex(userInput[1])
+                print(f"vertex {userInput[1]} found")
+            except ValueError:
+                print(f"vertex {userInput[1]} not found")
 
         elif userInput[0] == "display":
             graph.displayAsList()
@@ -74,7 +92,30 @@ def main():
     print("exiting")
 
 def editVertex(vertexObject:DSAGraph.GraphVertex):
-    ...
+    '''
+    methods:
+    - edit label :
+    - edit value :
+    - remove edges :
+    - add edges :
+    '''
+    userInput = (None, None)
+    while userInput[0] != "q":
+        userInput = input(f"editing {vertexObject.getLabel()} -> ").split()
+        if userInput[0] == "help":
+            print("help: ")
+            print("label <new label>")
+            print("value <new value>")
+            print("addEdge <vertex2> <weight>")
+    
+        elif userInput[0] == "label":
+            vertexObject.setLabel(userInput[1])
+        elif userInput[0] == "value":
+            vertexObject.setValue(userInput[1])
+        elif userInput[0] == "addEdge":
+            vertex2 = userInput[1]
+            weight = userInput[2]
+            vertexObject.addEdge(vertex2, weight)
 
 def quickTest():
     graph = DSAGraph.Graph()
