@@ -15,10 +15,8 @@ class UAV:
         if end is None or start is None:
             raise ValueError("End location cannot be None")
         flightPath = self.uav.dijkstra(start, end)
-        distance = 0
-        for vertex, weight in iter(flightPath):
-            distance += float(weight)
-        self.location = end
+        distance = flightPath.peekLast()[1]
+
         return flightPath, distance
     
     def display(self):
