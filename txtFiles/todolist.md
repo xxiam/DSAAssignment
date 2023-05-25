@@ -22,6 +22,11 @@
 - create scalability program
 
 - itinerary 
+
+- DSAUav.py file
+    - put all methods in and test functionality
+    - user interactive DSAUav.py file
+
 ## to do:
 
 - export in scalabilty program 
@@ -30,11 +35,5 @@
 
 - report writing !!!
 
-- DSAUav.py file
-    - put all methods in and test functionality
-    - user interactive DSAUav.py file
-
 - used dijkstra's algorithm but still needs to fix some datatypes:
     - change from dictionaries to hashTables
-
-        
