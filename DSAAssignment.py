@@ -162,10 +162,18 @@ def quickTest():
 
     print("------[End]-----------------")
 
-def main():
+def main(UAVloaction:str, UAVdata:str):
     '''
     interactive menu for UAV
     '''
+    
+    #import file into uav object
+    uav = DSAUav.uav()
+    
+    print("---[Interactive Menu for UAV]---")
+    userInput = (None, None)
+    while UserInput != "q":
+        
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-i":
