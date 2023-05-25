@@ -172,8 +172,8 @@ def main(UAVloaction:str, UAVdata:str):
     
     print("---[Interactive Menu for UAV]---")
     userInput = (None, None)
-    while UserInput != "q":
-        
+    while userInput != "q":
+        ...
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-i":
