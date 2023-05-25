@@ -184,6 +184,7 @@ class Graph(GraphVertex):
         return self.dijkstraAlg(start, end)
     
     def dijkstraAlg(self, start:GraphVertex, end:GraphVertex):
+        self.unvisitAll()
         '''
         Dijkstra's algorithm
         '''

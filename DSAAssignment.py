@@ -128,15 +128,37 @@ def quickTest():
     print(dangerPath)
 
     print("------[Flight]--------------")
+    #create subtree from high risk areas
+    #create new array
+
+    #given our location is at A, remove other locations, except for locations in dangerPath
+    c = 0
+    for item in dangerPath:
+        if item is not None:
+            c += 1
+    
+    path = np.empty(c, dtype = object) #this is the array to use
     for i in range(len(dangerPath)):
-        try:
-            if dangerPath[i + 1] is not None:
-                path, distance = uav.travel(dangerPath[i][1], dangerPath[i + 1][1])
-                path = ezFlightParse(path)
-                print("Flight path: ", path)
-                print("Distance: ", distance)
-        except IndexError:
-            pass
+        if dangerPath[i] is not None:
+            path[i] = dangerPath[i]
+
+    #find shortest path to start with
+    start = "A"
+
+    travelPath = DSAHeap.DSAHeap(len(path))
+
+    for t, vert in path:
+        #add to heap
+        p, dist = uav.travel(start, vert)
+        travelPath.insert(dist, vert)
+    
+    totalDistance = 0
+    while travelPath.isEmpty() is False:
+        _, dest = travelPath.remove()
+        _, distance = uav.travel(start, dest)
+        totalDistance += distance
+    
+    print(f"total distance travelled: {totalDistance}")
 
     print("------[End]-----------------")
 
