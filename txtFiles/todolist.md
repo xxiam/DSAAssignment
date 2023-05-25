@@ -31,6 +31,8 @@
 
 - export in scalabilty program 
 
+- fix DFS algorithm
+
 ## work in progress:
 
 - report writing !!!
