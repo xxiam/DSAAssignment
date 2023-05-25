@@ -20,13 +20,11 @@
 - delete vertex issue
 
 - create scalability program
-## to do:
 
 - itinerary 
-    - implement DFS search algorithm
-        - hamiltonian cycle
-            - would A* work?
-    - create most efficient uav flight path
+## to do:
+
+- export in scalabilty program 
 
 ## work in progress:
 

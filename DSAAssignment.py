@@ -168,16 +168,94 @@ def main(UAVloaction:str, UAVdata:str):
     '''
     
     #import file into uav object
-    uav = DSAUav.uav()
+    uav = DSAUav.UAV()
+    uav.importFile(UAVloaction, UAVdata)
+    print(f"imported {UAVloaction} and {UAVdata}")
     
     print("---[Interactive Menu for UAV]---")
     userInput = (None, None)
     while userInput != "q":
-        ...
+        userInput = input("> ")
+
+        if userInput == "h": 
+            print("> importFile <location> <data> : imports a new map for the uav")
+            print("> travel <start> <dest> : uses dijkstra's algorithm to find the shortest path")
+            print("> display : displays adjacency list")
+            print("> hamiltonianCycle <start> : WIP")
+            print("> DFS <start> : generic prac6 DFS")
+            print("> itinerary <start> : create flight path based on threat level")
+
+        elif userInput == "display":
+            uav.display()
+        
+        try:
+            userInput = userInput.split()
+        except:
+            pass
+
+        if userInput[0] == "importFile":
+            location = userInput[1]
+            data = userInput[2] 
+            uav.importFile(location, data)
+            print("imported !")
+        
+        elif userInput[0] == "travel":
+            start = userInput[1]
+            dest = userInput[2]
+            path, distance = uav.travel(start, dest)
+            path = ezFlightParse(path)
+            print(f"Flight path: {path}")
+            print(f"Distance: {distance}")
+
+        elif userInput[0] == "hamiltonianCycle":
+            ...
+
+        elif userInput[0] == "DFS":
+            path, distance = uav.DFS(userInput[1])
+            path = ezFlightParse(path)
+            print(f"Flight path: {path}")
+            print(f"Distance: {distance}")
+        
+        elif userInput[0] == "itinerary":
+            start = userInput[1]
+
+            dataHeap = threatTracker(uav, start)
+            dataHeap = dataHeap.export()
+            #create itinerary
+            for i in range(len(dataHeap)):
+                if dataHeap[i][0] > 5:
+                    dataHeap[i] = None
+            
+            #shorten array
+            c = 0
+            for item in dataHeap:
+                if item is not None:
+                    c += 1
+                
+            path = np.empty(c, dtype = object)
+            for i in range(len(dataHeap)):
+                if dataHeap[i] is not None:
+                    path[i] = dataHeap[i]
+            
+            travelPath = DSAHeap.DSAHeap(len(path))
+            for t, vert in path:
+                _, dist = uav.travel(start, vert)
+                travelPath.insert(dist, vert)
+            
+            totalDistance = 0
+            while travelPath.isEmpty() is False:
+                _, dest = travelPath.remove()
+                _, distance = uav.travel(start, dest)
+                totalDistance += distance
+            
+            print(f"total distance travelled: {totalDistance}")
+        
+        else:
+            print("Error: invalid input")
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-i":
-        main()
+        main("txtFiles/location.txt", "txtFiles/UAVdata.txt")
     elif len(sys.argv) == 2 and sys.argv[1] == "-q":
         quickTest()
     
