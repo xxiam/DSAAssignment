@@ -1,6 +1,5 @@
 import Dependancies.DSALinkedList as ll
 import Dependancies.DSAHeap as heap
-import Dependancies.DSAhash as hashTable
 import numpy as np
 import DSAUav
 
@@ -116,12 +115,11 @@ class Graph(GraphVertex):
                 print(links[0].getLabel(), end = ' ')
                 print(links[1], end = ' | ')
             print()
-
-#search algorithms
-#DFS finds the shortest path between thw whole graph, does not consider weight
-#dijkstra finds the shortest path between two locations, considering weight
-#A* finds the shortest path between two locations, considering weight and heuristic
-    #------------------------------------------
+'''
+search algorithms
+DFS finds the shortest path between thw whole graph, does not consider weight
+dijkstra finds the shortest path between two locations, considering weight#A* finds the shortest path between two locations, considering weight and heuristic
+'''
 
     def traverse(self, start, finish):
         start = self.getVertex(start)
