@@ -199,9 +199,6 @@ def main(UAVloaction:str, UAVdata:str):
         elif userInput == "quit":
             print("quitting")
             return
-        
-        elif userInput != "display" or userInput != "quit" or userInput != "h" or userInput != "help":
-            print("Error, invalid argument\n")
     
         try:
             userInput = userInput.split()
@@ -218,8 +215,20 @@ def main(UAVloaction:str, UAVdata:str):
             start = userInput[1]
             dest = userInput[2]
             path, distance = uav.travel(start, dest)
-            path = ezFlightParse(path)
-            print(f"Flight path: {path}")
+            pathArray = ezFlightParse(path)
+            print(f"Flight path: {pathArray}")
+            print(f"---------------------[DATA]---------------------")
+            print(f"location    temperature    humidity    windspeed")
+            for locationData in path: # is tuple
+                print(f"   {locationData[0].getLabel()}",end = "\t\t")
+                locationData = locationData[0].getValue()
+
+                temp = locationData.getTemperature()
+                humidity = locationData.getHumidity()
+                windspeed = locationData.getWindSpeed()
+
+                print(f" {temp}   \t      {humidity} \t   {windspeed}") #for output
+                print(f"------------------------------------------------")
             print(f"Distance: {distance}")
 
         elif userInput[0] == "hamiltonianCycle":
@@ -266,7 +275,10 @@ def main(UAVloaction:str, UAVdata:str):
             print(f"total distance travelled: {totalDistance}")
         
         elif len(userInput) > 3:
-            print("Error, invalid arguments")
+            print("Error, invalid arguments\n")
+        
+        elif userInput != "display" or userInput != "quit" or userInput != "h" or userInput != "help":
+            print("Error, invalid argument\n")
             
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-i":
