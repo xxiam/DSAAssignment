@@ -16,7 +16,6 @@ class UAV:
             raise ValueError("End location cannot be None")
         flightPath = self.uav.dijkstra(start, end)
         distance = flightPath.peekLast()[1]
-
         return flightPath, distance
     
     def display(self):

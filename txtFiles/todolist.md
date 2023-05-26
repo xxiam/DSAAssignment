@@ -33,6 +33,8 @@
 
 - fix DFS algorithm
 
+- create export method in scalabilityProgram.py
+
 ## work in progress:
 
 - report writing !!!

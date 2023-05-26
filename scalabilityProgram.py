@@ -6,7 +6,7 @@ def main():
     scalability program to create, edit, and remove vertices and edges
     '''
     
-    print("Scalabiltiy Program")
+    print("------\n Running: Scalabiltiy Program\n------")
     '''
     possible choices
     - import file : 
@@ -89,6 +89,9 @@ def main():
         elif userInput[0] == "display":
             graph.displayAsList()
 
+        else:
+            print("Error: invalid input")
+            
     print("exiting")
 
 def editVertex(graph:DSAGraph.Graph, vertexObject:DSAGraph.GraphVertex):
