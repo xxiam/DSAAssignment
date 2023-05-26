@@ -19,13 +19,13 @@ class GraphVertex():
 
     def getValue(self):
         return self.value
-    
+
     def getLabel(self):
         return self.label
-    
+
     def getLinks(self):
         return iter(self.links)
-    
+
     def setLabel(self, label):
         self.label = label
 
@@ -34,24 +34,24 @@ class GraphVertex():
 
     def addEdge(self, vertex, weight):
         self.links.insertFirst((vertex, weight)) #can be changed to an np.arry if needed
-    
+
     def unvisit(self):
         self.visited = False
-    
+
     def visit(self):
         self.visited = True
 
     def isVisited(self):
         return self.visited
-    
+
     def allVisited(self):
         for links, weight in iter(self.links): #skip weight
             if links.isVisited() is True:
                 return True
-            
+
     def __str__(self):
         return (f"Label: {self.getLabel()} | Value: {self.getValue()} | Visited: {self.isVisited()}")
-    
+
 class Graph(GraphVertex):
 
     def __init__(self):
@@ -100,7 +100,7 @@ class Graph(GraphVertex):
                 return vertex
         else:
             raise ValueError(f"Vertex with label {label} not found")
-        
+
     def addTwoWay(self, label1, label2, weight):
         label1 = self.getVertex(label1)
         label2 = self.getVertex(label2)
@@ -159,7 +159,7 @@ class Graph(GraphVertex):
         start = self.getVertex(start)
         self.unvisitAll()
         return self.DFSAlg(start)
-    
+
     def DFSAlg(self, start):
         path = ll.DSALinkedList()
         stack = ll.DSALinkedList()
@@ -175,7 +175,7 @@ class Graph(GraphVertex):
                 lowestVert = np.array((None, None), dtype=object) #vert, weight
 
                 if links.isVisited() is False:
-                    
+
                     if lowestVert[1] is None:
                         lowestVert[1] = weight
                         lowestVert[0] = links
@@ -183,7 +183,7 @@ class Graph(GraphVertex):
                     elif lowestVert[1] > weight:
                         lowestVert[1] = weight
                         lowestVert[0] = links
-                    
+
                     lowestVert[0].visit()
                     stack.insertFirst(lowestVert[0])
                     path.insertLast(lowestVert)
@@ -196,7 +196,7 @@ class Graph(GraphVertex):
         end = self.getVertex(end)
 
         return self.dijkstraAlg(start, end)
-    
+
     def dijkstraAlg(self, start:GraphVertex, end:GraphVertex):
         self.unvisitAll()
         '''
@@ -232,7 +232,7 @@ class Graph(GraphVertex):
             path.insertFirst((currentVertex, distances[currentVertex]))
             currentVertex = previous[currentVertex]
         return path
-    
+
     #experimental aStar
 
     def aStar(self, start, end):
@@ -243,7 +243,7 @@ class Graph(GraphVertex):
         end = self.getVertex(end)
 
         return self.aStarAlg(start, end)
-    
+
     def aStarAlg(self, start, end):
         '''
         A* search algorithm
@@ -281,7 +281,7 @@ class Graph(GraphVertex):
                     nodes.insert(alt, links)
 
         return path
-    
+
     #------------------------------------------
 
 #search algorithms
@@ -294,7 +294,7 @@ class Graph(GraphVertex):
                 for i in range(int(edgeCount)):
                     #in order of items, vertex1, vertex2, weight
                     data = np.array(f.readline().split('\n')[0].split())
-                    
+
                     #create verticies
                     if self.isVertex(data[0]) is False:
                         self.addVertex(data[0], None)
@@ -309,7 +309,7 @@ class Graph(GraphVertex):
                 raise ValueError("Error: vertex count does not match")
             if self.getEdgeCount() != int(edgeCount):
                 raise ValueError("Error: edge count does not match")
-            
+
             with open(uavData, 'r') as f:
                 for i in range(int(vertCount)):
                     vertex, temp, humidity, speed = np.array(f.readline().strip().split())
@@ -318,9 +318,9 @@ class Graph(GraphVertex):
                     vertex.setValue(locationData)
         except FileNotFoundError:
             raise FileNotFoundError("Error: " + filename + " does not exist")
-        
+
         return vertCount
-    
+
     #testing remove
 
     def removeEdge(self, vert1:str, vert2:str):
@@ -344,6 +344,6 @@ class Graph(GraphVertex):
         if vertex.links.isEmpty() is not None:
             for links, weight in iter(vertex.getLinks()):
                 self.removeEdge(vert, links.getLabel())
-        
+
         #remove vertex
         self.vertices.removeItem(vertex)
