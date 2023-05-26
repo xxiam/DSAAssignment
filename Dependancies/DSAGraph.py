@@ -164,16 +164,30 @@ class Graph(GraphVertex):
         path = ll.DSALinkedList()
         stack = ll.DSALinkedList()
         start.visit()
-        path.insertFirst((start, 0)) #start has 0 weight
+        path.insertFirst(np.array((start, 0), dtype=object)) #start has 0 weight
         stack.insertFirst(start)
 
         while stack.isEmpty() is False:
             currentVert = stack.removeFirst()
             for links, weight in iter(currentVert.getLinks()):
+
+                #find the lowest weight
+                lowestVert = np.array((None, None), dtype=object) #vert, weight
+
                 if links.isVisited() is False:
-                    links.visit()
-                    stack.insertFirst(links)
-                    path.insertLast((links, weight))
+                    
+                    if lowestVert[1] is None:
+                        lowestVert[1] = weight
+                        lowestVert[0] = links
+
+                    elif lowestVert[1] > weight:
+                        lowestVert[1] = weight
+                        lowestVert[0] = links
+                    
+                    lowestVert[0].visit()
+                    stack.insertFirst(lowestVert[0])
+                    path.insertLast(lowestVert)
+
         return path
 # ------------------------------------------
 

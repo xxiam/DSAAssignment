@@ -81,7 +81,7 @@ def quickTest():
 
     #testing flight paths
     start = "A"
-    end = "J"
+    end = "H"
     print(f"Flight path from {start} to {end}:")
     flightPath, distance = uav.travel(start, end)
     path = ezFlightParse(flightPath)
