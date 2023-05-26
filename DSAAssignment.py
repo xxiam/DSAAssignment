@@ -171,23 +171,38 @@ def main(UAVloaction:str, UAVdata:str):
     uav = DSAUav.UAV()
     uav.importFile(UAVloaction, UAVdata)
     print(f"imported {UAVloaction} and {UAVdata}")
-    
+    print("--------------------------------")
+    print(
+        " _   _   ___     __\n"
+        "| | | | / \ \   / /\n"
+        "| | | |/ _ \ \ / / \n"
+        "| |_| / ___ \ V /  \n"
+        " \___/_/   \_\_/   \n"
+    )
     print("---[Interactive Menu for UAV]---")
     userInput = (None, None)
     while userInput != "q":
         userInput = input("> ")
 
-        if userInput == "h": 
+        if userInput == "h" or userInput == "help":  
             print("> importFile <location> <data> : imports a new map for the uav")
             print("> travel <start> <dest> : uses dijkstra's algorithm to find the shortest path")
             print("> display : displays adjacency list")
             print("> hamiltonianCycle <start> : WIP")
             print("> DFS <start> : generic prac6 DFS")
             print("> itinerary <start> : create flight path based on threat level")
+            print("> quit : exit")
 
         elif userInput == "display":
             uav.display()
         
+        elif userInput == "quit":
+            print("quitting")
+            return
+        
+        elif userInput != "display" or userInput != "quit" or userInput != "h" or userInput != "help":
+            print("Error, invalid argument\n")
+    
         try:
             userInput = userInput.split()
         except:
@@ -250,9 +265,9 @@ def main(UAVloaction:str, UAVdata:str):
             
             print(f"total distance travelled: {totalDistance}")
         
-        else:
-            print("Error: invalid input")
-
+        elif len(userInput) > 3:
+            print("Error, invalid arguments")
+            
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "-i":
         main("txtFiles/location.txt", "txtFiles/UAVdata.txt")
