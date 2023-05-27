@@ -154,6 +154,7 @@ def quickTest():
     - remove edge : 
     - edit weight of edge : 
     '''
+    print("---running quick test---")
     try: #trying to add a vertex
         graph.addVertex("New", "NewItem created by test")
         print("add vertex test passed")

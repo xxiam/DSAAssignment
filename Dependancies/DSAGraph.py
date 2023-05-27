@@ -258,9 +258,9 @@ class Graph(GraphVertex):
                     data = np.array(f.readline().split('\n')[0].split())
 
                     #create verticies
-                    if self.isVertex(data[0]) is False:
+                    if self.hasVertex(data[0]) is False:
                         self.addVertex(data[0], None)
-                    if self.isVertex(data[1]) is False:
+                    if self.hasVertex(data[1]) is False:
                         self.addVertex(data[1], None)
 
                     #add edges
