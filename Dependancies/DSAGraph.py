@@ -67,14 +67,6 @@ class Graph(GraphVertex):
         for vertex in iter(self.vertices):
             vertex.unvisit()
 
-    def isVertex(self, item):
-        #check vertice list if item is already a vertex
-        for vertex in iter(self.vertices):
-            if vertex.getLabel() == item:
-                return True
-        else:
-            return False
-
     def hasVertex(self, item):
         #check vertice list if item is already a vertex
         for vertex in iter(self.vertices):
@@ -120,35 +112,6 @@ class Graph(GraphVertex):
     DFS finds the shortest path between thw whole graph, does not consider weight
     dijkstra finds the shortest path between two locations, considering weight#A* finds the shortest path between two locations, considering weight and heuristic
     '''
-
-    def traverse(self, start, finish):
-        start = self.getVertex(start)
-        finish = self.getVertex(finish)
-
-        return self.traverseAlg(start, finish)
-
-    def traverseAlg(self, start, finish):
-        queue = ll.DSALinkedList()
-        path = ll.DSALinkedList()
-        self.unvisitAll()
-
-        #start
-        currentVert = start
-        currentVert.visit()
-        queue.insertFirst(currentVert)
-        path.insertFirst((currentVert, 0))
-
-        while queue.isEmpty() is False:
-            currentVert = queue.removeFirst()
-            for links, weight in iter(currentVert.getLinks()):
-                if links.isVisited() is False:
-                    links.visit()
-                    queue.insertFirst(links)
-                    path.insertLast((links, weight))
-                    if links == finish:
-                        return path
-        else:
-            return path
 
     def DFS(self, start):
         '''
