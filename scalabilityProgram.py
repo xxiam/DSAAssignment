@@ -1,5 +1,7 @@
 import Dependancies.DSAGraph as DSAGraph
+import Dependancies.DSALinkedList as ll
 import sys
+import time
 
 def main():
     '''
@@ -29,7 +31,6 @@ def main():
         if userInput[0] == "help":
             print("help: ")
             print("import <location file> <data file>")
-            print("export <location filename> <data filename>")
             print("add <vertex label> <vertex value>")
             print("addEdge <vertex1> <vertex2> <weight>")
             print("remove <vertex label>")
@@ -42,10 +43,6 @@ def main():
             dataPath = userInput[2]
             graph.importFile(locationPath, dataPath)
             print("imported")
-
-        elif userInput[0] == "export":
-            #create export method in DSAgraph.py
-            ...
 
         elif userInput[0] == "add": #would look like add A 12 13 14
             label = userInput[1]
