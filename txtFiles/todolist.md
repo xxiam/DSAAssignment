@@ -29,11 +29,7 @@
 
 ## to do:
 
-- export in scalabilty program 
-
 - fix DFS algorithm
-
-- create export method in scalabilityProgram.py
 
 ## work in progress:
 
