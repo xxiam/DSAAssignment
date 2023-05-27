@@ -9,14 +9,18 @@ class UAV:
         self.locationCount = None
 
     def importFile(self, locationPath, dataPath):
-        self.locationCount = int(self.uav.importFile(locationPath, dataPath))
+        try:
+            self.locationCount = int(self.uav.importFile(locationPath, dataPath))
+        except FileNotFoundError as e:
+            print(e)
     
     def travel(self, start, end):
-        if end is None or start is None:
-            raise ValueError("End location cannot be None")
-        flightPath = self.uav.dijkstra(start, end)
-        distance = flightPath.peekLast()[1]
-        return flightPath, distance
+        try:
+            flightPath = self.uav.dijkstra(start, end)
+            distance = flightPath.peekLast()[1]
+            return flightPath, distance
+        except ValueError as e:
+            print(e)
     
     def display(self):
         self.uav.displayAsList()
@@ -31,13 +35,15 @@ class UAV:
         return table
     
     def DFS(self, start):
-        if start is None:
-            raise ValueError("Start location cannot be None")
-        path = self.uav.DFS(start)
-        distance = 0
-        for vertex, weight in iter(path):
-            distance += float(weight)
-        return path, distance
+        try:
+            path = self.uav.DFS(start)
+            distance = 0
+            for vertex, weight in iter(path):
+                distance += float(weight)
+            return path, distance
+        except ValueError as e:
+            print(e)
+        
     
 class Location:
     def __init__(self, temperature, humidity, windSpeed):
