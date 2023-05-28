@@ -84,7 +84,7 @@ class DSAHeap():
     
     def peek(self):
         if self.isEmpty():
-            raise FullHeapError("Error, full heap")
+            raise FullHeapError("Error, empty heap")
         else:
             return self.heap[0].getValue()
 
