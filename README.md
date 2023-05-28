@@ -21,29 +21,12 @@ the main program of the assignment
 
 ---
 
-`python3 scalabilityProgam.py`
+`python3 scalabilityProgam.py [option]`
 
 opens the scalability program, a CLI program for the user to create custom locations, vertices, edges and the ability to remove existing locations with import and export of .txt files
 
+`-q` : quick test to check if all methods are working, only running the `quickTest()` method only
+
+`none` : running the program without flags runs the program as normal
+
 ---
-
-## Description of Classes:
-
-### From DSAGraph.py:
- - Graph
- - GraphVertex
-
-### From DSAhash.py
- - DSAHashTable 
- - DSAHashEntry
-
-### From DSAHeap.py
- - DSAHeap
- - DSAHeapEntry
-
-### From DSALinkedList.py
- - DSALinkedList
- - DSALinkedListNode
-
-### From DSAUav.py
- - UAV
